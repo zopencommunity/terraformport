@@ -1,0 +1,65 @@
+#ls accordingly. Use bump check to confirm.
+# bump: terraform-version /TERRAFORM_VERSION="(.*)"/ https://github.com/hashicorp/terraform.git|semver:*
+# TERRAFORM_VERSION="V.R.M" # Specify a stable release
+TERRAFORM_VERSION="1.6.6"
+
+export ZOPEN_BUILD_LINE="STABLE"
+
+export ZOPEN_STABLE_TAG="v${TERRAFORM_VERSION}"
+export ZOPEN_STABLE_URL="https://github.com/hashicorp/terraform.git"
+export ZOPEN_STABLE_DEPS="comp_go wharf"
+
+export ZOPEN_CATEGORIES="development"
+export ZOPEN_NAME="terraform"
+
+export ZOPEN_DEV_URL="https://github.com/hashicorp/terraform.git"
+export ZOPEN_DEV_DEPS="comp_go wharf"
+
+#export ZOPEN_RUNTIME_DEPS="go"
+
+export ZOPEN_COMP=GO
+export ZOPEN_CONFIGURE="zopen_wharf"
+export ZOPEN_CONFIGURE_MINIMAL=1
+
+#export ZOPEN_MAKE="go"
+#export ZOPEN_MAKE_OPTS="build"
+#export ZOPEN_MAKE_MINIMAL=1
+
+export ZOPEN_INSTALL="zopen_install"
+
+export ZOPEN_CHECK="skip"
+export ZOPEN_CLEAN="zopen_clean"
+
+zopen_init()
+{
+  export CGO_ENABLED=0
+  # Go installs binaries, so create the bin dir as well
+  export GOBIN=$ZOPEN_INSTALL_DIR/bin
+  export PATH=$PATH:$GOROOT/go-build-zos/bin
+  mkdir -p $ZOPEN_INSTALL_DIR
+}
+
+zopen_wharf()
+{
+  cd ..
+
+  go work init ./terraform
+  wharf ./terraform/...
+  cd ./terraform
+}
+
+zopen_install()
+{
+  go install -ldflags="-X 'main.Version=${TERRAFORM_VERSION}'"
+}
+
+zopen_clean()
+{
+  rm -rf ../.wharf_cache ../go.work* ../wharf_port
+}
+
+zopen_get_version()
+{
+  echo "$TERRAFORM_VERSION"
+}
+
