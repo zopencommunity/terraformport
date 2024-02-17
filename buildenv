@@ -58,9 +58,6 @@ zopen_wharf()
   git clone https://github.com/chzyer/readline.git  
   cd readline; git apply -v --ignore-space-change --ignore-whitespace ../patches/readlinepatch; cd ..  
   
-  git clone https://github.com/bgentry/speakeasy.git
-  cd speakeasy; git apply -v --ignore-space-change --ignore-whitespace ../patches/speakeasypatch; cd ..
-
   go work init ./terraform ./go-userdirs ./readline ./pty
   wharf ./terraform/...
 
