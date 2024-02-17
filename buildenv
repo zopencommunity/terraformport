@@ -1,7 +1,7 @@
-#ls accordingly. Use bump check to confirm.
-# bump: terraform-version /TERRAFORM_VERSION="(.*)"/ https://github.com/hashicorp/terraform.git|semver:*
+# ls accordingly. Use bump check to confirm.
+# bump: terraform-version /TERRAFORM_VERSION="(.*)"/ https://github.com/hashicorp/terraform
 # TERRAFORM_VERSION="V.R.M" # Specify a stable release
-TERRAFORM_VERSION="1.6.6"
+TERRAFORM_VERSION="1.7.3"
 
 export ZOPEN_BUILD_LINE="STABLE"
 
@@ -9,53 +9,87 @@ export ZOPEN_STABLE_TAG="v${TERRAFORM_VERSION}"
 export ZOPEN_STABLE_URL="https://github.com/hashicorp/terraform.git"
 export ZOPEN_STABLE_DEPS="comp_go wharf"
 
-export ZOPEN_CATEGORIES="development"
+export ZOPEN_CATEGORIES="devops"
 export ZOPEN_NAME="terraform"
-
-export ZOPEN_DEV_URL="https://github.com/hashicorp/terraform.git"
-export ZOPEN_DEV_DEPS="comp_go wharf"
-
-#export ZOPEN_RUNTIME_DEPS="go"
 
 export ZOPEN_COMP=GO
 export ZOPEN_CONFIGURE="zopen_wharf"
 export ZOPEN_CONFIGURE_MINIMAL=1
-
-#export ZOPEN_MAKE="go"
-#export ZOPEN_MAKE_OPTS="build"
-#export ZOPEN_MAKE_MINIMAL=1
-
+export ZOPEN_MAKE="skip"
 export ZOPEN_INSTALL="zopen_install"
-
 export ZOPEN_CHECK="skip"
 export ZOPEN_CLEAN="zopen_clean"
 
 zopen_init()
 {
+  echo "here-at-init $PWD"
+
   export CGO_ENABLED=0
+  export GOTMPDIR=$PWD/go-tmpdir
+  mkdir -p $PWD/go-tmpdir
   # Go installs binaries, so create the bin dir as well
-  export GOBIN=$ZOPEN_INSTALL_DIR/bin
   export PATH=$PATH:$GOROOT/go-build-zos/bin
-  mkdir -p $ZOPEN_INSTALL_DIR
+  export GOBIN=$ZOPEN_INSTALL_DIR/bin
+  mkdir -p $ZOPEN_INSTALL_DIR/bin
+  unset CC CXX
+}
+
+zopen_build()
+{
+  echo $PWD
+  go version
+  go build
 }
 
 zopen_wharf()
 {
+  PTY_TAG="v1.1.21"
+  cd .. && echo ""
+  git clone https://github.com/creack/pty.git
+  echo "Checking out $PTY_TAG"
+  cd pty && git -c advice.detachedHead=false checkout $PTY_TAG
+  curl -s -o pty--$PTY_TAG.patch "https://raw.githubusercontent.com/ZOSOpenTools/wharf/main/deps-patches/pty--$PTY_TAG.patch"
+  git apply -v pty--$PTY_TAG.patch
   cd ..
+ 
+  git clone https://github.com/apparentlymart/go-userdirs.git
+  cd go-userdirs; git apply -v --ignore-space-change --ignore-whitespace ../patches/userdirspatch; cd ..
 
-  go work init ./terraform
-  wharf ./terraform/...
-  cd ./terraform
+  git clone https://github.com/chzyer/readline.git  
+  cd readline; git apply -v --ignore-space-change --ignore-whitespace ../patches/readlinepatch; cd ..  
+  
+  git clone https://github.com/bgentry/speakeasy.git
+  cd speakeasy; git apply -v --ignore-space-change --ignore-whitespace ../patches/speakeasypatch; cd ..
+
+  go work init ./terraform ./go-userdirs ./readline ./pty
+  #wharf ./terraform/...
+
+  cd ./terraform 
+  # terraform path
+  git checkout -- internal/configs/configload/inode.go
+  git apply -v --ignore-space-change --ignore-whitespace ../patches/terraformpatch
+
+  echo "here-at-config $PWD"
 }
 
 zopen_install()
 {
-  go install -ldflags="-X 'main.Version=${TERRAFORM_VERSION}'"
+  echo "here-at-install $PWD"
+  echo "GOBIN is $GOBIN"
+  
+  go mod tidy
+  chmod -R 755 ../go/pkg/mod/github.com/bgentry/speakeasy@v0.1.0/
+  cp ../speakeasy/* ../go/pkg/mod/github.com/bgentry/speakeasy@v0.1.0/
+  cat ../go/pkg/mod/github.com/bgentry/speakeasy@v0.1.0/speakeasy_unix.go
+  
+  go install
 }
 
 zopen_clean()
 {
-  rm -rf ../.wharf_cache ../go.work* ../wharf_port
+  echo "here-at-clean $PWD"
+  chmod -R 755 ../go
+  rm -rf ../go* ../.wharf_cache ../go.work* ../wharf_port ../go-userdirs ../readline ../speakeasy ../pty
 }
 
 zopen_get_version()

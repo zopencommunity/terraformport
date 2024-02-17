@@ -6,3 +6,10 @@ install/
 cli/
 go.work
 go.work.backup
+go.work.sum
+go/
+pty/
+readline/
+speakeasy/
+terraform/
+go-userdirs/
