@@ -1,4 +1,4 @@
-# ls accordingly. Use bump check to confirm.
+#ls accordingly. Use bump check to confirm.
 # bump: terraform-version /TERRAFORM_VERSION="(.*)"/ https://github.com/hashicorp/terraform.git|semver:*
 # TERRAFORM_VERSION="V.R.M" # Specify a stable release
 TERRAFORM_VERSION="1.7.3"
@@ -65,9 +65,14 @@ zopen_wharf()
   wharf ./terraform/...
 
   cd ./terraform 
-  # terraform path
+
+  # terraform patches
   git checkout -- internal/configs/configload/inode.go
   git apply -v --ignore-space-change --ignore-whitespace ../patches/terraformpatch
+  
+  # Upgrading afero, speakeasy dependencies version to get the zOS build tag changes
+  go get -u github.com/spf13/afero
+  go get -u github.com/bgentry/speakeasy@master
 
   echo "here-at-config $PWD"
 }
@@ -76,10 +81,6 @@ zopen_install()
 {
   echo "here-at-install $PWD"
   echo "GOBIN is $GOBIN"
-  
-  go mod tidy
-  chmod -R 755 ../go/pkg/mod/github.com/bgentry/speakeasy@v0.1.0/
-  cp -R ../speakeasy/* ../go/pkg/mod/github.com/bgentry/speakeasy@v0.1.0/
   
   go install
 }
