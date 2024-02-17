@@ -1,0 +1,36 @@
+diff --git a/term.go b/term.go
+index ea5db93..77f06ad 100644
+--- a/term.go
++++ b/term.go
+@@ -2,7 +2,7 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
+-// +build aix darwin dragonfly freebsd linux,!appengine netbsd openbsd os400 solaris
++// +build aix darwin dragonfly freebsd linux zos,!appengine netbsd openbsd os400 solaris
+ 
+ // Package terminal provides support functions for dealing with terminals, as
+ // commonly found on UNIX systems.
+diff --git a/term_nosyscall6.go b/term_nosyscall6.go
+index df92339..1c320fd 100644
+--- a/term_nosyscall6.go
++++ b/term_nosyscall6.go
+@@ -2,7 +2,7 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
+-// +build aix os400 solaris
++// +build aix os400 solaris zos
+ 
+ package readline
+ 
+diff --git a/utils_unix.go b/utils_unix.go
+index fc49492..ddc6927 100644
+--- a/utils_unix.go
++++ b/utils_unix.go
+@@ -1,4 +1,4 @@
+-// +build aix darwin dragonfly freebsd linux,!appengine netbsd openbsd os400 solaris
++// +build aix darwin dragonfly freebsd linux zos,!appengine netbsd openbsd os400 solaris
+ 
+ package readline
+ 

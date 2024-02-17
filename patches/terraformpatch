@@ -1,0 +1,15 @@
+diff --git a/internal/configs/configload/inode.go b/internal/configs/configload/inode.go
+index 0437b204e5..87df754142 100644
+--- a/internal/configs/configload/inode.go
++++ b/internal/configs/configload/inode.go
+@@ -1,8 +1,8 @@
+ // Copyright (c) HashiCorp, Inc.
+ // SPDX-License-Identifier: BUSL-1.1
+ 
+-//go:build linux || darwin || openbsd || netbsd || solaris || dragonfly
+-// +build linux darwin openbsd netbsd solaris dragonfly
++//go:build linux || darwin || openbsd || netbsd || solaris || dragonfly || zos
++// +build linux darwin openbsd netbsd solaris dragonfly zos 
+ 
+ package configload
+ 

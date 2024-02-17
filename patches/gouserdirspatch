@@ -1,0 +1,30 @@
+diff --git a/userdirs/app_stub.go b/userdirs/app_stub.go
+index 7532199..b668b56 100644
+--- a/userdirs/app_stub.go
++++ b/userdirs/app_stub.go
+@@ -1,4 +1,4 @@
+-// +build !linux,!windows,!darwin,!aix,!dragonfly,!freebsd,!netbsd,!openbsd,!solaris
++// +build !linux,!windows,!darwin,!aix,!dragonfly,!freebsd,!netbsd,!openbsd,!solaris,!zos
+ 
+ // The above build constraint must contain the negation of all of the build
+ // constraints found in the other app_*.go files, to catch any other OS
+diff --git a/userdirs/app_unix.go b/userdirs/app_unix.go
+index 44493df..04e1f9d 100644
+--- a/userdirs/app_unix.go
++++ b/userdirs/app_unix.go
+@@ -1,4 +1,4 @@
+-// +build linux aix dragonfly freebsd netbsd openbsd solaris
++// +build linux aix dragonfly freebsd netbsd openbsd solaris zos
+ 
+ package userdirs
+ 
+diff --git a/userdirs/app_unix_test.go b/userdirs/app_unix_test.go
+index 727a5d1..72be0eb 100644
+--- a/userdirs/app_unix_test.go
++++ b/userdirs/app_unix_test.go
+@@ -1,4 +1,4 @@
+-// +build linux aix dragonfly freebsd netbsd openbsd solaris
++// +build linux aix dragonfly freebsd netbsd openbsd solaris zos
+ 
+ package userdirs
+ 
