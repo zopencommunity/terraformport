@@ -14,7 +14,7 @@ index a6f24dc7e7..9a3923b467 100644
 @@ -1,5 +1,7 @@
  module github.com/hashicorp/terraform
  
-+replace github.com/bgentry/speakeasy v0.1.0 => ../speakeasy
++replace github.com/bgentry/speakeasy v0.1.0 => github.com/bgentry/speakeasy v0.1.1-0.20220910012023-760eaf8b6816
 +
  require (
  	cloud.google.com/go/kms v1.15.0
