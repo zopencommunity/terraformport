@@ -3,10 +3,11 @@ log.DEV/
 log.STABLE/
 build/
 install/
-go*
+go/
 afero/
 go-userdirs/
 readline/
 speakeasy/
 terraform/
-
+go.work
+go.work.sum

@@ -31,9 +31,9 @@ zopen_init()
 zopen_config()
 {
   GOUSERDIRS_TAG=$(cat go.mod | grep go-userdirs | cut -d '-' -f 4 | cut -c 1-7)
-  READLINE_TAG=$(cat go.mod | grep readline | cut -d '-' -f 3 | cut -c 1-7)
+  READLINE_TAG='main' # $(cat go.mod | grep readline | cut -d '-' -f 3 | cut -c 1-7)
   AFERO_TAG=$(cat go.mod | grep afero | cut -d ' ' -f 2)
-  SPEAKEASY_TAG=$(cat go.mod | grep speakeasy | cut -d ' ' -f 2)
+  # SPEAKEASY_TAG='main' # $(cat go.mod | grep speakeasy | cut -d ' ' -f 2)
 
   cd .. && echo ""
   git clone https://github.com/apparentlymart/go-userdirs.git
@@ -46,7 +46,7 @@ zopen_config()
   cd .. && echo ""
   git clone https://github.com/chzyer/readline.git
   echo "Checking out $READLINE_TAG"
-  cd readline && git -c advice.detachedHead=false checkout $READLINE_TAG
+  cd readline
   # curl -s -o readline--$READLINE_TAG.patch "https://raw.githubusercontent.com/ZOSOpenTools/wharf/main/deps-patches/readline--$READLINE_TAG.patch"
   # git apply -v --ignore-space-change --ignore-whitespace readline--$READLINE_TAG.patch
   git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/readline--$READLINE_TAG.patch
@@ -60,15 +60,11 @@ zopen_config()
   git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/afero--$AFERO_TAG.patch
 
   cd .. && echo ""
-  git clone -c advice.detachedHead=false --branch $SPEAKEASY_TAG https://github.com/bgentry/speakeasy.git
+  git clone https://github.com/bgentry/speakeasy.git
   echo "Checking out $SPEAKEASY_TAG"
-  cd speakeasy
-  # curl -s -o speakeasy--$SPEAKEASY_TAG.patch "https://raw.githubusercontent.com/ZOSOpenTools/wharf/main/deps-patches/speakeasy--$SPEAKEASY_TAG.patch"
-  # git apply -v --ignore-space-change --ignore-whitespace speakeasy--$SPEAKEASY_TAG.patch
-  git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/speakeasy--$SPEAKEASY_TAG.patch
 
   cd .. && echo ""
-  go work init ./speakeasy ./terraform ./go-userdirs ./readline ./afero
+  go work init ./go-userdirs ./readline ./afero ./speakeasy ./terraform
 }
 
 zopen_install()
