@@ -68,13 +68,13 @@ zopen_config()
   git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/speakeasy--$SPEAKEASY_TAG.patch
 
   cd .. && echo ""
-  go work init ./terraform ./go-userdirs ./readline ./afero ./speakeasy
+  go work init ./speakeasy ./terraform ./go-userdirs ./readline ./afero
 }
 
 zopen_install()
 {
   cd terraform
-  go install -ldflags="-X 'main.Version=${TERRAFORM_VERSION}'"
+  go install
 }
 
 zopen_clean()
