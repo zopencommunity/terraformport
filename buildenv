@@ -63,7 +63,7 @@ zopen_config()
   git clone https://github.com/bgentry/speakeasy.git
   echo "Checking out $SPEAKEASY_TAG"
 
-  cd .. && echo ""
+  echo ""
   go work init ./go-userdirs ./readline ./afero ./speakeasy ./terraform
 }
 
