@@ -59,12 +59,12 @@ zopen_config()
   # git apply -v --ignore-space-change --ignore-whitespace afero--$AFERO_TAG.patch
   git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/afero--$AFERO_TAG.patch
 
-  cd .. && echo ""
-  git clone https://github.com/bgentry/speakeasy.git
-  echo "Checking out $SPEAKEASY_TAG"
+  # cd .. && echo ""
+  # git clone https://github.com/bgentry/speakeasy.git
+  # echo "Checking out $SPEAKEASY_TAG"
 
-  echo ""
-  go work init ./go-userdirs ./readline ./afero ./speakeasy ./terraform
+  cd .. && echo ""
+  go work init ./go-userdirs ./readline ./afero ./terraform
 }
 
 zopen_install()
