@@ -1,0 +1,24 @@
+From 2a4ea714051729d513ea5242720ee4aa5a4ad087 Mon Sep 17 00:00:00 2001
+From: v1gnesh <v1gnesh@users.noreply.github.com>
+Date: Sun, 18 Feb 2024 11:14:12 +0000
+Subject: [PATCH] replace directive for speakeasy in go.mod
+
+---
+ go.mod | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/go.mod b/go.mod
+index a6f24dc7e7..9a3923b467 100644
+--- a/go.mod
++++ b/go.mod
+@@ -1,5 +1,7 @@
+ module github.com/hashicorp/terraform
+ 
++replace github.com/bgentry/speakeasy v0.1.0 => ../speakeasy
++
+ require (
+ 	cloud.google.com/go/kms v1.15.0
+ 	cloud.google.com/go/storage v1.30.1
+-- 
+2.42.1
+
