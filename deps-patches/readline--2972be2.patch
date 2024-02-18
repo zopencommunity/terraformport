@@ -1,0 +1,36 @@
+From 12e37199fa22babd782ea7bb872e2266002749f5 Mon Sep 17 00:00:00 2001
+From: v1gnesh <v1gnesh@users.noreply.github.com>
+Date: Sun, 18 Feb 2024 03:25:41 -0500
+Subject: [PATCH] zOS build
+
+---
+ term.go       | 2 +-
+ utils_unix.go | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/term.go b/term.go
+index 133993c..6b23eee 100644
+--- a/term.go
++++ b/term.go
+@@ -2,7 +2,7 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
+-// +build darwin dragonfly freebsd linux,!appengine netbsd openbsd solaris
++// +build darwin dragonfly freebsd linux,!appengine netbsd openbsd solaris zos
+ 
+ // Package terminal provides support functions for dealing with terminals, as
+ // commonly found on UNIX systems.
+diff --git a/utils_unix.go b/utils_unix.go
+index f88dac9..c12a463 100644
+--- a/utils_unix.go
++++ b/utils_unix.go
+@@ -1,4 +1,4 @@
+-// +build darwin dragonfly freebsd linux,!appengine netbsd openbsd solaris
++// +build darwin dragonfly freebsd linux,!appengine netbsd openbsd solaris zos
+ 
+ package readline
+ 
+-- 
+2.42.1
+

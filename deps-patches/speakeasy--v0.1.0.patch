@@ -1,0 +1,25 @@
+From 64dd535e07381aee91b358f88d3633d2c99b77ca Mon Sep 17 00:00:00 2001
+From: v1gnesh <v1gnesh@users.noreply.github.com>
+Date: Sun, 18 Feb 2024 03:27:34 -0500
+Subject: [PATCH] zOS build
+
+---
+ speakeasy_unix.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/speakeasy_unix.go b/speakeasy_unix.go
+index d99fda1..18bdd36 100644
+--- a/speakeasy_unix.go
++++ b/speakeasy_unix.go
+@@ -4,7 +4,7 @@
+ // Original code is based on code by RogerV in the golang-nuts thread:
+ // https://groups.google.com/group/golang-nuts/browse_thread/thread/40cc41e9d9fc9247
+ 
+-// +build darwin dragonfly freebsd linux netbsd openbsd solaris
++// +build darwin dragonfly freebsd linux netbsd openbsd solaris zos
+ 
+ package speakeasy
+ 
+-- 
+2.42.1
+

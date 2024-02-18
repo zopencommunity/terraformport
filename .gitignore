@@ -3,6 +3,10 @@ log.DEV/
 log.STABLE/
 build/
 install/
-cli/
-go.work
-go.work.backup
+go*
+afero/
+go-userdirs/
+readline/
+speakeasy/
+terraform/
+
