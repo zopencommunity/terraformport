@@ -1,0 +1,27 @@
+From 478dfeef83e33d50fadf34150a07e0e6d54898a2 Mon Sep 17 00:00:00 2001
+From: v1gnesh <v1gnesh@users.noreply.github.com>
+Date: Sun, 18 Feb 2024 09:14:50 +0000
+Subject: [PATCH] zOS build tag in inode.go
+
+---
+ internal/configs/configload/inode.go | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/internal/configs/configload/inode.go b/internal/configs/configload/inode.go
+index 0437b204e5..ad394e6a2c 100644
+--- a/internal/configs/configload/inode.go
++++ b/internal/configs/configload/inode.go
+@@ -1,8 +1,8 @@
+ // Copyright (c) HashiCorp, Inc.
+ // SPDX-License-Identifier: BUSL-1.1
+ 
+-//go:build linux || darwin || openbsd || netbsd || solaris || dragonfly
+-// +build linux darwin openbsd netbsd solaris dragonfly
++//go:build linux || darwin || openbsd || netbsd || solaris || dragonfly || zos
++// +build linux darwin openbsd netbsd solaris dragonfly zos
+ 
+ package configload
+ 
+-- 
+2.42.1
+
