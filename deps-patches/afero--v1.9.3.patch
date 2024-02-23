@@ -1,0 +1,43 @@
+From e4f8214bbf8bfea82cd3064d57c11c61721791fd Mon Sep 17 00:00:00 2001
+From: v1gnesh <v1gnesh@users.noreply.github.com>
+Date: Sun, 18 Feb 2024 03:26:28 -0500
+Subject: [PATCH] zOS build
+
+---
+ const_bsds.go     | 4 ++--
+ const_win_unix.go | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/const_bsds.go b/const_bsds.go
+index eed0f22..30855de 100644
+--- a/const_bsds.go
++++ b/const_bsds.go
+@@ -11,8 +11,8 @@
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+ 
+-//go:build aix || darwin || openbsd || freebsd || netbsd || dragonfly
+-// +build aix darwin openbsd freebsd netbsd dragonfly
++//go:build aix || darwin || openbsd || freebsd || netbsd || dragonfly || zos
++// +build aix darwin openbsd freebsd netbsd dragonfly zos
+ 
+ package afero
+ 
+diff --git a/const_win_unix.go b/const_win_unix.go
+index 004d57e..12792d2 100644
+--- a/const_win_unix.go
++++ b/const_win_unix.go
+@@ -10,8 +10,8 @@
+ // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+-//go:build !darwin && !openbsd && !freebsd && !dragonfly && !netbsd && !aix
+-// +build !darwin,!openbsd,!freebsd,!dragonfly,!netbsd,!aix
++//go:build !darwin && !openbsd && !freebsd && !dragonfly && !netbsd && !aix && !zos
++// +build !darwin,!openbsd,!freebsd,!dragonfly,!netbsd,!aix,!zos
+ 
+ package afero
+ 
+-- 
+2.42.1
+

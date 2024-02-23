@@ -7,24 +7,13 @@ export ZOPEN_BUILD_LINE="STABLE"
 
 export ZOPEN_STABLE_TAG="v${TERRAFORM_VERSION}"
 export ZOPEN_STABLE_URL="https://github.com/hashicorp/terraform.git"
-export ZOPEN_STABLE_DEPS="comp_go wharf"
-
-export ZOPEN_CATEGORIES="development"
-export ZOPEN_NAME="terraform"
-
-export ZOPEN_DEV_URL="https://github.com/hashicorp/terraform.git"
-export ZOPEN_DEV_DEPS="comp_go wharf"
-
-#export ZOPEN_RUNTIME_DEPS="go"
+export ZOPEN_STABLE_DEPS="comp_go git curl"
+export ZOPEN_CATEGORIES="devops"
 
 export ZOPEN_COMP=GO
-export ZOPEN_CONFIGURE="zopen_wharf"
+export ZOPEN_CONFIGURE="zopen_config"
 export ZOPEN_CONFIGURE_MINIMAL=1
-
-#export ZOPEN_MAKE="go"
-#export ZOPEN_MAKE_OPTS="build"
-#export ZOPEN_MAKE_MINIMAL=1
-
+export ZOPEN_MAKE="skip"
 export ZOPEN_INSTALL="zopen_install"
 
 export ZOPEN_CHECK="skip"
@@ -33,29 +22,59 @@ export ZOPEN_CLEAN="zopen_clean"
 zopen_init()
 {
   export CGO_ENABLED=0
-  # Go installs binaries, so create the bin dir as well
-  export GOBIN=$ZOPEN_INSTALL_DIR/bin
+  export GOTMPDIR=$PWD/go-tmpdir
+  mkdir -p $PWD/go-tmpdir
   export PATH=$PATH:$GOROOT/go-build-zos/bin
-  mkdir -p $ZOPEN_INSTALL_DIR
+  export GOBIN=$ZOPEN_INSTALL_DIR/bin
+  mkdir -p $ZOPEN_INSTALL_DIR/bin
+  unset CC CXX
 }
 
-zopen_wharf()
+zopen_config()
 {
-  cd ..
+  GOUSERDIRS_TAG=$(cat go.mod | grep go-userdirs | cut -d '-' -f 4 | cut -c 1-7)
+  READLINE_TAG='main' # $(cat go.mod | grep readline | cut -d '-' -f 3 | cut -c 1-7)
+  AFERO_TAG=$(cat go.mod | grep afero | cut -d ' ' -f 2)
+  # SPEAKEASY_TAG='main' # $(cat go.mod | grep speakeasy | cut -d ' ' -f 2)
 
-  go work init ./terraform
-  wharf ./terraform/...
-  cd ./terraform
+  cd .. && echo ""
+  git clone https://github.com/apparentlymart/go-userdirs.git
+  echo "Checking out $GOUSERDIRS_TAG"
+  cd go-userdirs && git -c advice.detachedHead=false checkout $GOUSERDIRS_TAG
+  # curl -s -o go-userdirs--$GOUSERDIRS_TAG.patch "https://raw.githubusercontent.com/ZOSOpenTools/wharf/main/deps-patches/go-userdirs--$GOUSERDIRS_TAG.patch"
+  # git apply -v --ignore-space-change --ignore-whitespace go-userdirs--$GOUSERDIRS_TAG.patch
+  git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/go-userdirs--$GOUSERDIRS_TAG.patch
+
+  cd .. && echo ""
+  git clone https://github.com/chzyer/readline.git
+  echo "Checking out $READLINE_TAG"
+  cd readline
+  # curl -s -o readline--$READLINE_TAG.patch "https://raw.githubusercontent.com/ZOSOpenTools/wharf/main/deps-patches/readline--$READLINE_TAG.patch"
+  # git apply -v --ignore-space-change --ignore-whitespace readline--$READLINE_TAG.patch
+  git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/readline--$READLINE_TAG.patch
+
+  cd .. && echo ""
+  git clone -c advice.detachedHead=false --branch $AFERO_TAG https://github.com/spf13/afero.git
+  echo "Checking out $AFERO_TAG"
+  cd afero
+  # curl -s -o afero--$AFERO_TAG.patch "https://raw.githubusercontent.com/ZOSOpenTools/wharf/main/deps-patches/afero--$AFERO_TAG.patch"
+  # git apply -v --ignore-space-change --ignore-whitespace afero--$AFERO_TAG.patch
+  git apply -v --ignore-space-change --ignore-whitespace ../deps-patches/afero--$AFERO_TAG.patch
+
+  cd .. && echo ""
+  go work init ./go-userdirs ./readline ./afero ./terraform
 }
 
 zopen_install()
 {
+  cd terraform
   go install -ldflags="-X 'main.Version=${TERRAFORM_VERSION}'"
 }
 
 zopen_clean()
 {
-  rm -rf ../.wharf_cache ../go.work* ../wharf_port
+  chmod -R 755 go
+  rm -rf go* terraform go-userdirs readline afero speakeasy
 }
 
 zopen_get_version()

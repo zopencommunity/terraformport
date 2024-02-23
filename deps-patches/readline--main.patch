@@ -1,0 +1,50 @@
+From a702d51c537f0fbdff3df2c90e7dd5c4b9cad2c4 Mon Sep 17 00:00:00 2001
+From: v1gnesh <v1gnesh@users.noreply.github.com>
+Date: Sun, 18 Feb 2024 05:53:48 -0500
+Subject: [PATCH] zOS to readline master
+
+---
+ term.go            | 2 +-
+ term_nosyscall6.go | 2 +-
+ utils_unix.go      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/term.go b/term.go
+index ea5db93..b034b2a 100644
+--- a/term.go
++++ b/term.go
+@@ -2,7 +2,7 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
+-// +build aix darwin dragonfly freebsd linux,!appengine netbsd openbsd os400 solaris
++// +build aix darwin dragonfly freebsd linux,!appengine netbsd openbsd os400 solaris zos
+ 
+ // Package terminal provides support functions for dealing with terminals, as
+ // commonly found on UNIX systems.
+diff --git a/term_nosyscall6.go b/term_nosyscall6.go
+index df92339..1c320fd 100644
+--- a/term_nosyscall6.go
++++ b/term_nosyscall6.go
+@@ -2,7 +2,7 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
+-// +build aix os400 solaris
++// +build aix os400 solaris zos
+ 
+ package readline
+ 
+diff --git a/utils_unix.go b/utils_unix.go
+index fc49492..b1924ea 100644
+--- a/utils_unix.go
++++ b/utils_unix.go
+@@ -1,4 +1,4 @@
+-// +build aix darwin dragonfly freebsd linux,!appengine netbsd openbsd os400 solaris
++// +build aix darwin dragonfly freebsd linux,!appengine netbsd openbsd os400 solaris zos
+ 
+ package readline
+ 
+-- 
+2.42.1
+
