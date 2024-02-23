@@ -66,7 +66,7 @@ zopen_config()
 zopen_install()
 {
   cd terraform
-  go install
+  go install -ldflags="-X 'main.Version=${TERRAFORM_VERSION}'"
 }
 
 zopen_clean()
