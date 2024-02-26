@@ -1,11 +1,14 @@
+#ls accordingly. Use bump check to confirm.
 # bump: terraform-version /TERRAFORM_VERSION="(.*)"/ https://github.com/hashicorp/terraform.git|semver:*
-TERRAFORM_VERSION="1.7.3"
+# TERRAFORM_VERSION="1.7.4" # Specify a stable release
+TERRAFORM_VERSION="1.7.4"
 
 export ZOPEN_BUILD_LINE="STABLE"
 
 export ZOPEN_STABLE_TAG="v${TERRAFORM_VERSION}"
 export ZOPEN_STABLE_URL="https://github.com/hashicorp/terraform.git"
 export ZOPEN_STABLE_DEPS="comp_go git curl"
+
 export ZOPEN_CATEGORIES="devops"
 
 export ZOPEN_COMP=GO
@@ -19,11 +22,14 @@ export ZOPEN_CLEAN="zopen_clean"
 
 zopen_init()
 {
+  echo "here-at-init $PWD"
+
   export CGO_ENABLED=0
   export GOTMPDIR=$PWD/go-tmpdir
   export GOCACHE=$PWD/go-tmpcachedir
   mkdir -p $PWD/go-tmpdir
   mkdir -p $PWD/go-tmpcachedir
+  # Go installs binaries, so create the bin dir as well
   export PATH=$PATH:$GOROOT/go-build-zos/bin
   export GOBIN=$ZOPEN_INSTALL_DIR/bin
   mkdir -p $ZOPEN_INSTALL_DIR/bin
@@ -32,6 +38,8 @@ zopen_init()
 
 zopen_config()
 {
+  echo "here-at-config $PWD"
+  
   GOUSERDIRS_TAG=$(cat go.mod | grep go-userdirs | cut -d '-' -f 4 | cut -c 1-7)
   READLINE_TAG='main' # $(cat go.mod | grep readline | cut -d '-' -f 3 | cut -c 1-7)
   AFERO_TAG=$(cat go.mod | grep afero | cut -d ' ' -f 2)
@@ -63,18 +71,23 @@ zopen_config()
 
   cd .. && echo ""
   go work init ./go-userdirs ./readline ./afero ./terraform
+  cd terraform
 }
 
 zopen_install()
 {
-  cd terraform
+  echo "here-at-install $PWD"
+  echo "GOBIN is $GOBIN"
+
   go install -ldflags="-X 'main.Version=${TERRAFORM_VERSION}'"
 }
 
 zopen_clean()
 {
-  chmod -R 755 go
-  rm -rf go* terraform go-userdirs readline afero speakeasy
+  echo "here-at-clean $PWD"
+
+  chmod -R 755 ../go
+  rm -rf ../go* ../go ../terraform ../go-userdirs ../readline ../afero
 }
 
 zopen_get_version()
