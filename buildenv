@@ -1,7 +1,7 @@
 #ls accordingly. Use bump check to confirm.
 # bump: terraform-version /TERRAFORM_VERSION="(.*)"/ https://github.com/hashicorp/terraform.git|semver:*
-# TERRAFORM_VERSION="1.7.4" # Specify a stable release
-TERRAFORM_VERSION="1.7.4"
+# TERRAFORM_VERSION="1.7.5" # Specify a stable release
+TERRAFORM_VERSION="1.7.5"
 
 export ZOPEN_BUILD_LINE="STABLE"
 
