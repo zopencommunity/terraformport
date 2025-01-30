@@ -1,5 +1,35 @@
 [![Automatic version updates](https://github.com/ZOSOpenTools/terraformport/actions/workflows/bump.yml/badge.svg)](https://github.com/ZOSOpenTools/terraformport/actions/workflows/bump.yml)
 
-# terraform
+# Terraform
 
-Terraform is an open-source infrastructure as code tool that enables you to safely and predictably provision and manage infrastructure in any cloud
+An infrastructure as code tool
+
+# Installation and Usage
+
+Use the zopen package manager ([QuickStart Guide](https://zopen.community/#/Guides/QuickStart)) to install:
+```bash
+zopen install terraform
+```
+
+# Building from Source
+
+1. Clone the repository:
+```bash
+git clone https://github.com/zopencommunity/terraformport.git
+cd terraformport
+```
+2. Build using zopen:
+```bash
+zopen build -vv
+```
+
+See the [zopen porting guide](https://zopen.community/#/Guides/Porting) for more details.
+
+# Documentation
+
+
+# Troubleshooting
+TBD
+
+# Contributing
+Contributions are welcome! Please follow the [zopen contribution guidelines](https://github.com/zopencommunity/meta/blob/main/CONTRIBUTING.md).
